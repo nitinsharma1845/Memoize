@@ -27,4 +27,55 @@ const createLabel = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(201, label, "Label created successfull.."));
 });
 
-export { createLabel };
+const updateLabel = asyncHandler(async (req, res, next) => {
+  const { name } = req.body;
+  const {labelId} = req.params
+
+  if (!name) return next(new ApiError(400, "Name is required"));
+
+  const label = await Label.findOneAndUpdate(
+    { owner: req.user._id, _id : labelId },
+    { name },
+    { new: true }
+  );
+
+  if (!label)
+    return next(new ApiError(400, "Error while updating name of label"));
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, label, "Label Name updated"));
+});
+
+const deleteLabel = asyncHandler(async (req, res, next) => {
+  const { labelId } = req.params;
+
+  const label = await Label.deleteOne({ _id: labelId, owner: req.user?._id });
+
+  if (label.deletedCount === 0) {
+    return next(new ApiError(404, "Label not found or unauthorized"));
+  }
+
+  return res.status(200).json(new ApiResponse(200, null, "Label deleted"));
+});
+
+const getLabelNotes = asyncHandler(async (req, res, next) => {
+  const { labelId } = req.params;
+
+  if (!labelId) return next(new ApiError(400, "lable id is required"));
+
+  const label = await Label.findOne({
+    _id: labelId,
+    owner: req.user._id,
+  }).populate("notes");
+
+  if (!label || !label.notes || label.notes.length === 0)
+    return next(new ApiError(400, "No notes found"));
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, notes, "Note fetched successfully"));
+});
+
+
+export { createLabel, updateLabel, deleteLabel, getLabelNotes };

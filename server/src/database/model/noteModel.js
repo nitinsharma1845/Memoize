@@ -14,6 +14,11 @@ const schema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    label: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Label",
+      required: true,
+    },
 
     status: {
       type: String,
