@@ -18,8 +18,8 @@ app.use(
 
 import { userRoutes } from "./router/user.route.js";
 import { noteRouter } from "./router/note.route.js";
-import { lableRoute } from "./router/lable.route.js";
+import { labelRoute } from "./router/lable.route.js";
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/note", noteRouter);
-app.use("/api/v1/lable", lableRoute);
+app.use("/api/v1/label", labelRoute);

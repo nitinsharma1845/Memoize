@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const lableSchema = new Schema(
+const labelSchema = new Schema(
   {
     name: {
       type: String,
@@ -22,4 +22,4 @@ const lableSchema = new Schema(
   { timestamps: true }
 );
 
-export const Lable = mongoose.model("Lable", lableSchema);
+export const Label = mongoose.model("Label", labelSchema);

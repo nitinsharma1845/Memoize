@@ -2,7 +2,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../database/model/userModel.js";
-import { Lable } from "../database/model/lableModel.js";
+import { Label } from "../database/model/lableModel.js";
 import jwt from "jsonwebtoken";
 import { uploadToClodinary } from "../utils/uploadToCloudinary.js";
 
@@ -24,15 +24,15 @@ const registerUser = asyncHandler(async (req, res, next) => {
 
   if (!user) return next(new ApiError(500, "Error while registering.."));
 
-  const lable = await Lable.create({
+  const label = await Label.create({
     name: "General",
     notes: [],
     owner: user._id,
   });
 
-  if (!lable) return next(new ApiError(500, "Error while creating label"));
+  if (!label) return next(new ApiError(500, "Error while creating label"));
 
-  user.label.push(lable._id);
+  user.label.push(label._id);
   await user.save({ validateBeforeSave: false });
 
   return res

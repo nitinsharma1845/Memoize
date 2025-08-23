@@ -33,7 +33,7 @@ const schema = new mongoose.Schema(
     label: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Lable",
+        ref: "label",
       },
     ],
   },
