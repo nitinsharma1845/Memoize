@@ -13,3 +13,13 @@ app.use(
     origin: "http://localhost:5173",
   })
 );
+
+//api routes
+
+import { userRoutes } from "./router/user.route.js";
+import { noteRouter } from "./router/note.route.js";
+import { lableRoute } from "./router/lable.route.js";
+
+app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/note", noteRouter);
+app.use("/api/v1/lable", lableRoute);
