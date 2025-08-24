@@ -59,6 +59,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
       username: isUserExist.username,
       email: isUserExist.email,
       _id: isUserExist._id,
+      avatar: isUserExist.avatar,
     },
     process.env.JWT_SECRET,
     {
@@ -77,6 +78,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
             email: isUserExist.email,
             _id: isUserExist._id,
             username: isUserExist.username,
+            avatar: isUserExist.avatar,
           },
           token: token,
         },
