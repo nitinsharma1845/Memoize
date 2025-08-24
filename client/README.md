@@ -1,12 +1,63 @@
-# React + Vite
+# Memoize Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Memoize is a note-taking web application built with React and Vite. This frontend connects to a Node.js/Express backend and provides features like authentication, note management, and label organization.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- User authentication (signup, login, logout)
+- Create, update, and view notes
+- Organize notes by labels
+- Pin and search notes
+- Upload user avatars
+- Responsive UI with Tailwind CSS
+- Toast notifications for feedback
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [React Router](https://reactrouter.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Axios](https://axios-http.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Lucide React](https://lucide.dev/icons/)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- Backend server running (see `/server` folder)
+
+### Installation
+
+```sh
+npm install
+
+npm run dev
+
+npm run build
+
+npm run lint
+
+client/
+  ├── public/           # Static assets
+  ├── src/
+  │   ├── components/   # Reusable UI and main components
+  │   ├── pages/        # Route pages (Login, Signup, Home, Account)
+  │   ├── store/        # Redux store and slices
+  │   ├── utils/        # API and helper functions
+  │   ├── [App.jsx](http://_vscodecontentref_/0)       # Main app component
+  │   ├── [main.jsx](http://_vscodecontentref_/1)      # Entry point
+  │   └── [index.css](http://_vscodecontentref_/2)     # Global styles
+  ├── [package.json](http://_vscodecontentref_/3)
+  ├── [vite.config.js](http://_vscodecontentref_/4)
+  └── [README.md](http://_vscodecontentref_/5)
+
+
+  Environment Variables
+The frontend expects the backend API to be running at http://localhost:8000. You can change this in src/utils/api.js.
+
+API Endpoints
+See backend documentation for available endpoints.
