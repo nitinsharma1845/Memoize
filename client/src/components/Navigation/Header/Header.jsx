@@ -45,7 +45,7 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-amber-300 w-full p-2">
+    <header className="bg-amber-300 w-full p-2 fixed top-0 left-0 z-10">
       <nav className="container mx-auto flex items-center justify-between gap-x-20">
         <Link to={"/"}>
           <Logo size="25px" className="font-secondry" />

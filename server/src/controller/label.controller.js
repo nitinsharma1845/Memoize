@@ -2,6 +2,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { ApiError } from "../utils/apiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { Label } from "../database/model/lableModel.js";
+import { User } from "../database/model/userModel.js";
 
 const createLabel = asyncHandler(async (req, res, next) => {
   const { name } = req.body;
@@ -22,6 +23,11 @@ const createLabel = asyncHandler(async (req, res, next) => {
 
   if (!label) return next(new ApiError(500, "Error while creating label..."));
 
+  const owner = await User.findById(user._id);
+
+  owner.label.push(label._id);
+  await owner.save({ validateBeforeSave: false });
+
   return res
     .status(201)
     .json(new ApiResponse(201, label, "Label created successfull.."));
@@ -29,12 +35,12 @@ const createLabel = asyncHandler(async (req, res, next) => {
 
 const updateLabel = asyncHandler(async (req, res, next) => {
   const { name } = req.body;
-  const {labelId} = req.params
+  const { labelId } = req.params;
 
   if (!name) return next(new ApiError(400, "Name is required"));
 
   const label = await Label.findOneAndUpdate(
-    { owner: req.user._id, _id : labelId },
+    { owner: req.user._id, _id: labelId },
     { name },
     { new: true }
   );
@@ -77,5 +83,17 @@ const getLabelNotes = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, notes, "Note fetched successfully"));
 });
 
+const getAllLabels = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.user._id).populate("label");
+  // console.log(req.user._id);
 
-export { createLabel, updateLabel, deleteLabel, getLabelNotes };
+  if (!user) return next(new ApiError(400, "User not found"));
+  // console.log(user);
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, { labels: user.label }, "Labels fetch successfully ")
+    );
+});
+
+export { createLabel, updateLabel, deleteLabel, getLabelNotes, getAllLabels };

@@ -1,8 +1,10 @@
 import React from 'react'
-
+import {Account as AccountComp} from '../components'
 const Account = () => {
   return (
-    <div>Account</div>
+    <div className=''>
+      <AccountComp />
+    </div>
   )
 }
 

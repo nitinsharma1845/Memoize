@@ -24,6 +24,7 @@ const Login = () => {
     console.log(data);
     loginUser(data)
       .then((res) => {
+        console.log("LOgin Response:::" , res)
         toast.success("Login successfull", { id });
         console.log(res.data.data);
         dispatch(
@@ -38,6 +39,7 @@ const Login = () => {
         }, 2000);
       })
       .catch((err) => {
+        console.log("Login error ::", err)
         toast.error(err.message, { id });
       });
   }

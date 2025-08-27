@@ -8,6 +8,9 @@ import SearchBar from "./UI/SearchBar";
 import Login from "./Main/Login";
 import Signup from "./Main/Signup";
 import Account from "./Main/Account";
+import Protected from "./Main/Protected";
+import Loading from "./UI/Loading";
+import AsideBar from "./Navigation/AsideBar/AsideBar";
 
 export {
   Button,
@@ -20,4 +23,7 @@ export {
   Login,
   Signup,
   Account,
+  Protected,
+  Loading,
+  AsideBar
 };
