@@ -4,7 +4,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../database/model/userModel.js";
 import { Label } from "../database/model/lableModel.js";
 import jwt from "jsonwebtoken";
-import { uploadToClodinary } from "../utils/uploadToCloudinary.js";
+import { uploadToCloudinary } from "../utils/uploadToCloudinary.js";
 
 const registerUser = asyncHandler(async (req, res, next) => {
   const { email, username, password } = req.body;
@@ -111,7 +111,7 @@ const uploadAvatar = asyncHandler(async (req, res, next) => {
 
   if (!avatarFile) return next(new ApiError(400, "Avatar is required..."));
 
-  const avatarUrl = await uploadToClodinary(avatarFile.path);
+  const avatarUrl = await uploadToCloudinary(avatarFile.path, req.user._id);
 
   if (!avatarUrl) return next(new ApiError(500, "Error while uploading image"));
 
