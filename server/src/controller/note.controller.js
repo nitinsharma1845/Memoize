@@ -85,7 +85,6 @@ const changeNoteStatus = asyncHandler(async (req, res, next) => {
 });
 
 const getNoteByStatus = asyncHandler(async (req, res, next) => {
-  const { labelId } = req.params;
   const { status } = req.query;
 
   const noteStatus = ["active", "archived", "trashed"];
@@ -93,11 +92,7 @@ const getNoteByStatus = asyncHandler(async (req, res, next) => {
   if (!noteStatus.includes(status))
     return next(new ApiError(400, "Invalid status"));
 
-  if (!mongoose.Types.ObjectId.isValid(labelId)) {
-    return next(new ApiError(404, "Invalid Note ID"));
-  }
-
-  const notes = await Note.find({ label: labelId, status });
+  const notes = await Note.find({ status });
 
   if (!notes) return next(new ApiError(400, "No notes found"));
 

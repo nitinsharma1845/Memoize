@@ -11,6 +11,8 @@ import Account from "./Main/Account";
 import Protected from "./Main/Protected";
 import Loading from "./UI/Loading";
 import AsideBar from "./Navigation/AsideBar/AsideBar";
+import Trash from "./Main/Trash";
+import Archive from "./Main/Archive";
 
 export {
   Button,
@@ -25,5 +27,7 @@ export {
   Account,
   Protected,
   Loading,
-  AsideBar
+  AsideBar,
+  Trash,
+  Archive
 };

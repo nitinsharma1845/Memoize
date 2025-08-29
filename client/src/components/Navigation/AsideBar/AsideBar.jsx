@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { fetchLabels } from "../../../utils/labelsServices";
+import { getNoteByStatus } from "../../../utils/noteServices";
 import { Link } from "react-router-dom";
 import { Plus, Tag } from "lucide-react";
-import { Input, Loading } from "../../index";
+import { Input, Loading, Trash, Archive } from "../../index";
 import { useForm } from "react-hook-form";
 import { api } from "../../../utils/api";
 import toast from "react-hot-toast";
@@ -12,6 +13,8 @@ const AsideBar = () => {
   const [showInput, setShowInput] = useState(false);
   const btnRef = useRef();
   const [loading, setLoading] = useState(true);
+ 
+
   const {
     register,
     handleSubmit,
@@ -42,7 +45,7 @@ const AsideBar = () => {
     const id = toast.loading("creating a new label.");
     try {
       const res = await api.post("/label/create", data);
-        // console.log("create abel res ::::", res);
+      // console.log("create abel res ::::", res);
 
       if (res.data?.status) {
         setLabels((prev) => [...prev, res.data?.data]);
@@ -53,7 +56,7 @@ const AsideBar = () => {
 
       setShowInput(false);
     } catch (error) {
-        console.error("In catch errro", error);
+      console.error("In catch errro", error);
       toast.error(
         error.response?.data?.message ||
           error.message ||
@@ -65,10 +68,11 @@ const AsideBar = () => {
     }
   }
 
+
   if (loading) return <Loading />;
 
   return (
-    <aside className="w-2xs fixed z-0 left-0 bg-amber-100 h-screen pt-17 overflow-y-scroll scrollbar-thin scrollbar-thumb-amber-200 scrollbar-track-amber-100">
+    <aside className="w-3xs fixed flex-col flex z-0 left-0 bg-amber-100 h-screen pt-17 pb-5 overflow-y-scroll scrollbar-thin scrollbar-thumb-amber-200 scrollbar-track-amber-100">
       <div className="flex items-center justify-between pr-10">
         <h1 className="text-2xl">Labels</h1>
         <Plus
@@ -82,7 +86,7 @@ const AsideBar = () => {
         />
       </div>
 
-      <div className="mt-2">
+      <div className="mt-2 overflow-y-auto md:h-[80%]">
         {showInput && (
           <div className="w-[90%] mx-auto">
             <div className="w-full flex items-center gap-2">
@@ -91,7 +95,10 @@ const AsideBar = () => {
                 placeholder="New Label Name.."
                 {...register("name", { required: "Label name is required" })}
               />
-              <Plus className="" onClick={handleSubmit(createLabel)} />
+              <Plus
+                className="cursor-pointer"
+                onClick={handleSubmit(createLabel)}
+              />
             </div>
             {errors.name && (
               <p className="text-xs text-red-700 mt-1">{errors.name.message}</p>
@@ -111,6 +118,15 @@ const AsideBar = () => {
             {label?.name}
           </Link>
         ))}
+      </div>
+
+      <div className="mt-auto gap-5 grid">
+        <Link to={"/archived-notes"}>
+          <Archive />
+        </Link>
+        <Link to={"/trashed-notes"}>
+          <Trash />
+        </Link>
       </div>
     </aside>
   );

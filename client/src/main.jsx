@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import { Provider } from "react-redux";
 import { store } from "./store/auth/authStore.js";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login, Home, Signup, Account, Notes } from "./pages";
+import { Login, Home, Signup, Account, Notes, ArchivedNotes, TrashedNotes } from "./pages";
 import { Protected } from "./components/index.js";
 
 const routes = createBrowserRouter([
@@ -28,6 +28,14 @@ const routes = createBrowserRouter([
       {
         path: "/account",
         element: <Account />,
+      },
+      {
+        path: "/archived-notes",
+        element: <ArchivedNotes />,
+      },
+      {
+        path: "/trashed-notes",
+        element: <TrashedNotes />,
       },
       {
         path: "/label/:labelId",

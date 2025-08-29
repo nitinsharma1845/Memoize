@@ -21,7 +21,7 @@ noteRouter.patch(
 );
 
 noteRouter.get(
-  "/:labelId/notes",
+  "/notes",
   authLayer,
   getNoteByStatus,
   errorHandler

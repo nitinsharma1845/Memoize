@@ -2,7 +2,7 @@ import React from "react";
 
 const Button = ({ children, className = "", ...props }) => {
   return (
-    <button className={`py-2 px-6 rounded border shadow cursor-pointer ${className}`} {...props}>
+    <button className={`rounded border shadow cursor-pointer py-2 px-6  ${className}`} {...props}>
       {children}
     </button>
   );
