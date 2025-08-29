@@ -74,13 +74,14 @@ const getLabelNotes = asyncHandler(async (req, res, next) => {
     _id: labelId,
     owner: req.user._id,
   }).populate("notes");
+  // console.log("Notes in label ::" , label)
 
   if (!label || !label.notes || label.notes.length === 0)
     return next(new ApiError(400, "No notes found"));
 
   return res
     .status(200)
-    .json(new ApiResponse(200, notes, "Note fetched successfully"));
+    .json(new ApiResponse(200, label.notes, "Note fetched successfully"));
 });
 
 const getAllLabels = asyncHandler(async (req, res, next) => {

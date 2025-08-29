@@ -24,6 +24,11 @@ const createNote = asyncHandler(async (req, res, next) => {
 
   if (!note) return next(new ApiError(500, "Error while creating the note"));
 
+  const label = await Label.findById(labelId);
+
+  label.notes.push(note._id);
+  label.save({ validateBeforeSave: false });
+
   return res.status(201).json(new ApiResponse(201, note, "Note created.."));
 });
 
@@ -148,5 +153,5 @@ export {
   changeNoteStatus,
   getNoteByStatus,
   deleteNote,
-  toggleNotePin
+  toggleNotePin,
 };

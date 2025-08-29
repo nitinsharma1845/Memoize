@@ -1,11 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @import "tailwindcss";
-@plugin 'tailwind-scrollbar';
+/* @plugin "@tailwindcss/line-clamp"; */
+/* @source  "../node_modules/@tailwindcss/line-clamp" */
 
-
-
-@theme {
+:root {
   --font-primary: "Outfit", sans-serif;
-  --font-secondry: "Montserrat", sans-serif;
+  --font-secondary: "Montserrat", sans-serif;
 }
