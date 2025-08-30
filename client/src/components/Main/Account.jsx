@@ -3,20 +3,21 @@ import { UserRound, Pencil } from "lucide-react";
 import { getCurrentUser, uploadAvatar } from "../../utils/authServices";
 import { Loading, Button } from "../index";
 import toast from "react-hot-toast";
-import { changeAvatar } from "../../store/auth/authSlice";
+import { changeAvatar, setUser } from "../../store/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { data } from "react-router-dom";
 
 const Account = () => {
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
   const inputRef = useRef();
-
   const avatar = useSelector((state) => state.auth.avatar);
+
   const dispatch = useDispatch();
 
-  console.log("Redux avatar url:::" , avatar)
+  // console.log("Redux avatar url:::", avatar);
 
   useEffect(() => {
     fetchUser();
@@ -25,12 +26,12 @@ const Account = () => {
   const fetchUser = async () => {
     try {
       const res = await getCurrentUser();
-      const fetchedUser = res.data.data;
-      setUser(fetchedUser);
-      dispatch(changeAvatar(fetchedUser.avatar)); // keep redux avatar in sync
-      setLoading(false);
+      const { _id, username, email } = res.data.data;
+      // console.log(_id);
+      dispatch(setUser({ _id, username, email }));
     } catch (err) {
       console.error(err);
+    } finally {
       setLoading(false);
     }
   };
@@ -56,14 +57,12 @@ const Account = () => {
   const handleConfirm = async () => {
     if (!file) return;
     const toastId = toast.loading("Uploading avatar...");
+    setUploading(true);
     try {
-      await uploadAvatar(file);
-      const res = await getCurrentUser();
-      const updatedUser = res.data.data;
+      const res = await uploadAvatar(file);
 
-      setUser(updatedUser);
-      console.log("Updated avatar URL ::" , updatedUser.avatar)
-      dispatch(changeAvatar(`${updatedUser.avatar}?t=${Date.now()}`)); // update redux avatar
+      console.log("Updated avatar URL ::", res.data);
+      dispatch(changeAvatar(res.data.data));
 
       toast.success("Avatar updated!", { id: toastId });
       setPreview(null);
@@ -87,7 +86,7 @@ const Account = () => {
         <div className="shadow-xs relative rounded-full w-40 h-40 flex justify-center items-center z-10">
           {avatar ? (
             <img
-              src={`${avatar}?t=${Date.now()}`} 
+              src={`${avatar}?t=${Date.now()}`}
               alt="avatar"
               className="w-full h-full z-0 rounded-full object-cover shadow-2xl"
             />
@@ -103,19 +102,14 @@ const Account = () => {
         </div>
 
         <div className="flex items-center justify-center w-full mt-7">
-          <input
-            type="text"
-            value={user.username}
-            className="w-full text-xl"
-            disabled
-          />
+          <input type="text" className="w-full text-xl" disabled />
           <div className="z-10 bg-amber-300 rounded-full p-1 cursor-pointer hover:shadow-2xl">
             <Pencil size={"20px"} />
           </div>
         </div>
 
         <div className="flex items-center justify-center w-full mt-3">
-          <input type="text" value={user.email} className="w-full" disabled />
+          <input type="text" className="w-full" disabled />
           <div className="z-10 bg-amber-300 rounded-full p-1 cursor-pointer hover:shadow-2xl">
             <Pencil size={"20px"} />
           </div>
@@ -142,10 +136,11 @@ const Account = () => {
             </div>
             <div className="flex gap-10">
               <Button
+                disabled={uploading}
                 className="bg-green-500 border-none text-gray-100"
                 onClick={handleConfirm}
               >
-                Upload
+                {uploading ? "Uploading" : "upload"}
               </Button>
               <Button
                 className="bg-red-500 border-none text-gray-100"

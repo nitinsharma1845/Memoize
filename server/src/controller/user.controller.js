@@ -90,8 +90,12 @@ const loginUser = asyncHandler(async (req, res, next) => {
 const currentUser = asyncHandler(async (req, res, next) => {
   const user = req.user;
 
+  const refetchedUser = await User.findById(user._id).select("-password");
+
   if (!user) return next(new ApiError(401, "Unauthorized Request"));
-  return res.status(200).json(new ApiResponse(200, user, "User fetched.."));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, refetchedUser, "User fetched.."));
 });
 
 const logoutUser = asyncHandler(async (req, res, next) => {
@@ -123,7 +127,9 @@ const uploadAvatar = asyncHandler(async (req, res, next) => {
     { new: true }
   ).select("-password");
 
-  return res.status(200).json(new ApiResponse(200, user, "Avatar updated.."));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user.avatar, "Avatar updated.."));
 });
 
 export { registerUser, loginUser, currentUser, logoutUser, uploadAvatar };
