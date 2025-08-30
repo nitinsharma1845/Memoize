@@ -142,6 +142,18 @@ const toggleNotePin = asyncHandler(async (req, res, next) => {
     .json(new ApiResponse(200, note, "Note pinned status changed"));
 });
 
+const getPinnedNotes = asyncHandler(async (req, res, next) => {
+  const notes = await Note.find({ isPinned: true });
+  if (!notes || notes.length === 0)
+    return res
+      .status(200)
+      .json(new ApiResponse(200, [], "No notes Pinned yet"));
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, notes, "Note fetched successfully"));
+});
+
 export {
   createNote,
   updateNote,
@@ -149,4 +161,5 @@ export {
   getNoteByStatus,
   deleteNote,
   toggleNotePin,
+  getPinnedNotes,
 };

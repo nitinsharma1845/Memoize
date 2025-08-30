@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { errorHandler } from "../middleware/error.middleware.js";
 import { authLayer } from "../middleware/auth.middleware.js";
-import { changeNoteStatus, createNote, getNoteByStatus, toggleNotePin, updateNote } from "../controller/note.controller.js";
+import { changeNoteStatus, createNote, getNoteByStatus, getPinnedNotes, toggleNotePin, updateNote } from "../controller/note.controller.js";
 
 export const noteRouter = Router();
 
@@ -24,6 +24,13 @@ noteRouter.get(
   "/notes",
   authLayer,
   getNoteByStatus,
+  errorHandler
+);
+
+noteRouter.get(
+  "/pinned",
+  authLayer,
+  getPinnedNotes,
   errorHandler
 );
 
